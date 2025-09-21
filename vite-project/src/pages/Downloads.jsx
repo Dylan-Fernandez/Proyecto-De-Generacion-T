@@ -9,4 +9,4 @@ const Downloads= () => {
   );
 };
 
-export default Downloads;  // <-- Esta línea es clave
+export default Downloads;  // <-- Esta línea es clave 

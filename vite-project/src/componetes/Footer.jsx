@@ -1,5 +1,5 @@
 import "./Footer.css";
-
+import mapsImg from "./img/maps.jpeg";
 function Footer() {
   return (
     <>
@@ -18,8 +18,14 @@ function Footer() {
           <a href="https://www.facebook.com/share/1CmiBztcT9/" target="_blank">Facebook</a>
           <a href="https://x.com/IDM__Oficial?t=ONRRnjcy5gozZGK6y0ZfzA&s=33" target="_blank">Twitter</a>
 
-        &copy; {new Date().getFullYear()}   I.D.M. All rights reserved.
+
+       <h5> &copy; {new Date().getFullYear()}   I.D.M. All rights reserved. </h5>
       </div>
+      <div class="maps">
+            <h3>Encuentranos:</h3>
+            <a href="https://maps.app.goo.gl/RkFoGfLYF9BgNXDZA" target="_blank"><img class="maps_img" src={mapsImg} alt="Lugar en maps"></img></a>
+            <a href="https://maps.app.goo.gl/RkFoGfLYF9BgNXDZA" target="_blank"><p>Mariquita Thompson, España &, Villa Madero Cdad. Autónoma de Buenos Aires</p></a>
+        </div>
     </footer>
     </>
   );

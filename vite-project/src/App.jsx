@@ -7,9 +7,8 @@ import Contacts from './pages/Contacts'
 import Downloads from './pages/Downloads'
 import History from './pages/History'
 import Photos from './pages/Photos'
-
+import Footer from './componetes/Footer'
 function App() {
-
 
   return (
     <>
@@ -21,6 +20,7 @@ function App() {
         <Route path="/History" element={<History />} />
         <Route path="/Photos" element={<Photos />} />
       </Routes>
+      <Footer />
     </>
   )
 }
