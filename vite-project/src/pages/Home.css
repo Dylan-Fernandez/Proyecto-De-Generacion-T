@@ -1,0 +1,37 @@
+.chart_text{
+    margin-top: 2%;
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+    align-items: center;
+    
+}
+.img_what_is{
+    margin-top: 1%;
+    margin-right: 10%;
+    width: 40%;
+    height: 400px;
+}
+.right_what_is{
+    display: flex;
+    flex-direction: column;
+}
+.title_what_is{
+    display: flex;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    width: 100%;
+    font-size: 60px;
+    justify-content: center;
+    background-color: #00988d;
+    box-shadow: 0 0 10px black;
+    margin-bottom: 0;
+    margin-left: -0.1%;
+}
+.what_is_text{
+    padding: 2% 2% 2% 2%;
+    font-size: 30px;
+    margin-top: 0;
+    background-color: #2c6b74;
+    box-shadow: 0 0 10px black;
+}
