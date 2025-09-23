@@ -10,6 +10,7 @@ import Photos from './pages/Photos'
 import Footer from './componetes/Footer'
 function App() {
 
+
   return (
     <>
      <Navbar />
@@ -20,7 +21,7 @@ function App() {
         <Route path="/History" element={<History />} />
         <Route path="/Photos" element={<Photos />} />
       </Routes>
-      <Footer />
+      <Footer/>
     </>
   )
 }
