@@ -14,9 +14,8 @@
 
 .downloads_links {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas en PC */
   gap: 20px;
-  font-size: 130%;
   background-color: #2c6b74;
   box-shadow: 0 0 10px black;
   padding: 20px;
@@ -44,9 +43,25 @@
   text-shadow: 0 0 3px white;
 }
 
-/* Responsive */
-@media (max-width: 844px) {
+/* RESPONSIVE estilo tipo Footer */
+
+/* Tablet / iPad */
+@media (max-width: 900px) {
   .downloads_links {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas como Footer */
+    gap: 15px;
+  }
+}
+
+/* Móvil */
+@media (max-width: 600px) {
+  .downloads_links {
+    grid-template-columns: 1fr; /* 1 columna en móvil */
+    gap: 10px;
+  }
+
+  .downloads_link {
+    width: 90%; /* centrado */
+    margin: 0 auto 20px auto;
   }
 }
