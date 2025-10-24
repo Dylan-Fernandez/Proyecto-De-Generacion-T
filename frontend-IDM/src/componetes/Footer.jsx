@@ -4,7 +4,7 @@ function Footer() {
   return (
     <>
     <footer className="footer">
-        <div class="participantes">
+        <div className="participantes">
             <h3>Participantes:</h3>
             <ul>
                 <li><a href="https://www.instagram.com/dylan_youl/profilecard/?igsh=MXM4aDdjOHZkaW16Nw=="target="_blank">Dylan Fernández </a> </li>
@@ -21,9 +21,9 @@ function Footer() {
 
        <h5> &copy; {new Date().getFullYear()}   I.D.M. All rights reserved. </h5>
       </div>
-      <div class="maps">
+      <div className="maps">
             <h3>Encuentranos:</h3>
-            <a href="https://maps.app.goo.gl/RkFoGfLYF9BgNXDZA" target="_blank"><img class="maps_img" src={mapsImg} alt="Lugar en maps"></img></a>
+            <a href="https://maps.app.goo.gl/RkFoGfLYF9BgNXDZA" target="_blank"><img className="maps_img" src={mapsImg} alt="Lugar en maps"></img></a>
             <a href="https://maps.app.goo.gl/RkFoGfLYF9BgNXDZA" target="_blank"><p>Mariquita Thompson, España &, Villa Madero Cdad. Autónoma de Buenos Aires</p></a>
         </div>
     </footer>

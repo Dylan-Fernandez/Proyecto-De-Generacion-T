@@ -1,4 +1,4 @@
-const Contacts = () => {
+const Product = () => {
     return (
         <div>
             <h1>hola2</h1>
@@ -7,4 +7,4 @@ const Contacts = () => {
     );
 };
 
-export default Contacts;  // <-- Esta línea es clave
+export default Product;  // <-- Esta línea es clave
