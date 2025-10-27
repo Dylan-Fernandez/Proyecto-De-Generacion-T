@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Carrito {
+  id            Int           @id(map: "PK__Carrito__3213E83F371C19F7") @default(autoincrement())
+  fechaCreacion DateTime?     @default(now(), map: "DF__Carrito__fechaCr__4D94879B")
+  total         Decimal?      @default(0, map: "DF__Carrito__total__4E88ABD4") @db.Decimal(10, 2)
+  clienteId     Int
+  Cliente       Cliente       @relation(fields: [clienteId], references: [id], onUpdate: NoAction, map: "FK__Carrito__cliente__4F7CD00D")
+  ItemCarrito   ItemCarrito[]
+}
+
+model Cliente {
+  id            Int       @id(map: "PK__Cliente__3213E83FE732CF94") @default(autoincrement())
+  nombre        String    @db.NVarChar(100)
+  correo        String    @unique(map: "UQ__Cliente__2A586E0B5D2C90FD") @db.NVarChar(150)
+  telefono      String?   @db.NVarChar(50)
+  direccion     String?   @db.NVarChar(255)
+  fechaRegistro DateTime? @default(now(), map: "DF__Cliente__fechaRe__4AB81AF0")
+  Carrito       Carrito[]
+}
+
+model ItemCarrito {
+  id        Int     @id(map: "PK__ItemCarr__3213E83FB094714D") @default(autoincrement())
+  producto  String  @db.NVarChar(200)
+  cantidad  Int
+  precio    Decimal @db.Decimal(10, 2)
+  carritoId Int
+  Carrito   Carrito @relation(fields: [carritoId], references: [id], onUpdate: NoAction, map: "FK__ItemCarri__carri__52593CB8")
+}
