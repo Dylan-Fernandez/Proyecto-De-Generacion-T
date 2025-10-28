@@ -1,60 +1,41 @@
-const prisma = require('../db/connection');
+const prisma = require('../config/connection');
+const jwt = require('jsonwebtoken');
 
-module.exports = {
-  getCart: async (req, res) => {
-    let cart = await prisma.cart.findFirst({
-      where: { userId: req.user.id },
-      include: { items: { include: { product: true } } }
+//Middleware auxiliar para obtener el usuario desde el token
+const getUserFromToken = (req) => {
+  const header = req.headers.authorization;
+  if (!header) return null;
+  const token = header.split(' ')[1];
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch {
+    return null;
+  }
+};
+
+//Vaciar carrito del usuario autenticado
+exports.clearCart = async (req, res) => {
+  try {
+    const user = getUserFromToken(req);
+    if (!user) return res.status(401).json({ message: 'Token inválido o faltante' });
+
+    const cart = await prisma.carts.findFirst({
+      where: { userId: user.id },
+      include: { CartItems: true },
     });
+
     if (!cart) {
-      cart = await prisma.cart.create({ data: { userId: req.user.id } , include: { items: true }});
-    }
-    res.json(cart);
-  },
-
-  addItem: async (req, res) => {
-    const { productId, quantity = 1 } = req.body;
-    let cart = await prisma.cart.findFirst({ where: { userId: req.user.id }});
-    if (!cart) {
-      cart = await prisma.cart.create({ data: { userId: req.user.id }});
+      return res.json({ message: 'Carrito ya vacío' });
     }
 
-    // Si ya existe el item, incrementar
-    const existing = await prisma.cartItem.findFirst({
-      where: { cartId: cart.id, productId: parseInt(productId) }
+    //Eliminar items del carrito
+    await prisma.cartItems.deleteMany({
+      where: { cartId: cart.id },
     });
 
-    if (existing) {
-      const updated = await prisma.cartItem.update({
-        where: { id: existing.id },
-        data: { quantity: existing.quantity + parseInt(quantity) }
-      });
-      return res.json(updated);
-    }
-
-    const item = await prisma.cartItem.create({
-      data: {
-        cartId: cart.id,
-        productId: parseInt(productId),
-        quantity: parseInt(quantity)
-      },
-      include: { product: true }
-    });
-
-    res.json(item);
-  },
-
-  removeItem: async (req, res) => {
-    const { cartItemId } = req.body;
-    await prisma.cartItem.delete({ where: { id: parseInt(cartItemId) }});
-    res.json({ message: 'Item eliminado' });
-  },
-
-  clearCart: async (req, res) => {
-    const cart = await prisma.cart.findFirst({ where: { userId: req.user.id }});
-    if (cart) {
-      await prisma.cartItem.deleteMany({ where: { cartId: cart.id }});
-    }
-    res.json({ message: 'Carrito vaciado' });
+    res.json({ message: 'Compra finalizada. Carrito vaciado.' });
+  } catch (error) {
+    console.error('Error al vaciar carrito:', error);
+    res.status(500).json({ message: 'Error al procesar compra', error });
   }
 };

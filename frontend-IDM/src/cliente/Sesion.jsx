@@ -1,23 +1,38 @@
 import { useState } from "react";
 import "./Sesion.css";
 import { Link } from "react-router-dom";
-import "./Registro.jsx";
-
 
 function Sesion() {
-  const [nombre, setNombre] = useState("");
+  const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [mensaje, setMensaje] = useState("");
-  const [email, setEmail] = useState("");
-  const [errores, setErrores] = useState({});
 
-
-  function manejarEnvio(e) {
+  async function manejarEnvio(e) {
     e.preventDefault();
-    if (nombre === "admin" && contraseña === "1234" && email === "elpepe_2014@hotmail.com") {
-      setMensaje("✅ Inicio de sesión exitoso");
-    } else {
-      setMensaje("❌ Nombre o contraseña incorrectos");
+
+    try {
+      const respuesta = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password: contraseña, // ✅ debe ser "password"
+        }),
+
+      });
+
+      const data = await respuesta.json();
+
+      if (respuesta.ok) {
+        setMensaje("✅ Inicio de sesión exitoso");
+        console.log("Token recibido:", data.token);
+        // Aquí puedes guardar el token: localStorage.setItem("token", data.token);
+      } else {
+        setMensaje(`❌ ${data.message || "Error al iniciar sesión"}`);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setMensaje("⚠️ Error al conectar con el servidor");
     }
   }
 
@@ -25,7 +40,6 @@ function Sesion() {
     <div className="login-container">
       <h2>Inicio de Sesión</h2>
       <form onSubmit={manejarEnvio}>
-
         <div className="input-group">
           <label>E-mail</label>
           <input
@@ -46,20 +60,17 @@ function Sesion() {
             placeholder="Ingresa tu contraseña"
             required
           />
-          {errores.contraseña && <span className='text-danger'>{errores.contraseña}</span>}
         </div>
-
 
         <button type="submit" className="btn-login">
           Iniciar sesión
         </button>
-
       </form>
-    <Link to="/Registro">
-        <button className="btn-create-account" placeholder="Crear cuenta"> 
-                Crear cuenta
-        </button>
-    </Link>
+
+      <Link to="/Registro">
+        <button className="btn-create-account">Crear cuenta</button>
+      </Link>
+
       {mensaje && <p className="mensaje">{mensaje}</p>}
     </div>
   );

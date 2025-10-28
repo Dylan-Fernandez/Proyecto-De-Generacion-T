@@ -30,16 +30,7 @@ const Navbar = ({ cart = [] }) => {
         </nav>
 
         <div className="navbar__icons pc-only">
-          <div className="navbar__iconsend">
-            <Link to="/Sesion">👤</Link>
-            <Link to="/Cart" className="cart-icon">
-              🛒
-              {totalItems > 0 && (
-                <span className="cart-count">{totalItems}</span>
-              )}
-            </Link>
-          </div>
-          <div className="navbar__search-group1">
+           <div className="navbar__search-group1">
             {searchOpen && (
               <input
                 type="text"
@@ -58,6 +49,15 @@ const Navbar = ({ cart = [] }) => {
               />
             )}
             <button onClick={() => setSearchOpen(true)}>🔍</button>
+          </div>
+          <div className="navbar__iconsend">
+            <Link to="/Sesion">👤</Link>
+            <Link to="/Cart" className="cart-icon">
+              🛒
+              {totalItems > 0 && (
+                <span className="cart-count">{totalItems}</span>
+              )}
+            </Link>
           </div>
         </div>
 

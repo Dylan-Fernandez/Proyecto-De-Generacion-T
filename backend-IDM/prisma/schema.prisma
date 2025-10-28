@@ -2,55 +2,67 @@ generator client {
   provider = "prisma-client-js"
 }
 
-
 datasource db {
   provider = "sqlserver"
   url      = env("DATABASE_URL")
 }
 
-model Cart {
-  id        Int        @id(map: "PK__Cart__3213E83F3316CF3F") @default(autoincrement())
-  userId    Int
-  createdAt DateTime   @default(dbgenerated("sysdatetime()"), map: "DF__Cart__createdAt__6B24EA82")
-  updatedAt DateTime   @default(dbgenerated("sysdatetime()"), map: "DF__Cart__updatedAt__6C190EBB")
-  User      User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Cart_User")
-  CartItem  CartItem[]
-
-  @@index([userId], map: "IX_Cart_UserId")
+model Addresses {
+  id      Int     @id(map: "PK__Addresse__3213E83F7418F786") @default(autoincrement())
+  userId  Int
+  label   String? @db.NVarChar(50)
+  street  String  @db.NVarChar(255)
+  city    String  @db.NVarChar(100)
+  state   String? @db.NVarChar(100)
+  country String  @db.NVarChar(100)
+  postal  String? @db.NVarChar(20)
+  Users   Users   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK__Addresses__userI__08B54D69")
 }
 
-model CartItem {
-  id        Int      @id(map: "PK__CartItem__3213E83F6B0E4BC7") @default(autoincrement())
+model CartItems {
+  id        Int      @id(map: "PK__CartItem__3213E83F6BFB5FCA") @default(autoincrement())
   cartId    Int
   productId Int
-  quantity  Int      @default(1, map: "DF__CartItem__quanti__6FE99F9F")
-  addedAt   DateTime @default(dbgenerated("sysdatetime()"), map: "DF__CartItem__addedA__70DDC3D8")
-  Cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_CartItem_Cart")
-  Product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_CartItem_Product")
-
-  @@index([cartId], map: "IX_CartItem_CartId")
-  @@index([productId], map: "IX_CartItem_ProductId")
+  qty       Int?     @default(1, map: "DF__CartItems__qty__151B244E")
+  Carts     Carts    @relation(fields: [cartId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK__CartItems__cartI__160F4887")
+  Products  Products @relation(fields: [productId], references: [id], onUpdate: NoAction, map: "FK_CartItems_Products")
 }
 
-model Product {
-  id          Int        @id(map: "PK__Product__3213E83F65A2E8F6") @default(autoincrement())
-  name        String     @db.NVarChar(255)
-  description String?    @db.NVarChar(Max)
+model Carts {
+  id        Int         @id(map: "PK__Carts__3213E83FB9DC39AD") @default(autoincrement())
+  userId    Int
+  createdAt DateTime?   @default(now(), map: "DF__Carts__createdAt__114A936A") @db.DateTime
+  CartItems CartItems[]
+  Users     Users       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK__Carts__userId__123EB7A3")
+}
+
+model Products {
+  id          Int         @id(map: "PK__Products__3213E83F8E9C7E10") @default(autoincrement())
+  name        String      @db.NVarChar(255)
+  description String?     @db.NVarChar(Max)
   price       Float
-  imageUrl    String?    @db.NVarChar(500)
-  createdAt   DateTime   @default(dbgenerated("sysdatetime()"), map: "DF__Product__created__6754599E")
-  updatedAt   DateTime   @default(dbgenerated("sysdatetime()"), map: "DF__Product__updated__68487DD7")
-  CartItem    CartItem[]
+  imageUrl    String?     @db.NVarChar(500)
+  createdAt   DateTime?   @default(dbgenerated("sysdatetime()"), map: "DF__Products__create__2180FB33")
+  updatedAt   DateTime?   @default(dbgenerated("sysdatetime()"), map: "DF__Products__update__22751F6C")
+  CartItems   CartItems[]
 }
 
-model User {
-  id        Int      @id(map: "PK__User__3213E83F2E56C8B8") @default(autoincrement())
-  firstName String   @db.NVarChar(255)
-  lastName  String?  @db.NVarChar(255)
-  email     String   @unique(map: "UQ__User__AB6E6164D1AB3776") @db.NVarChar(255)
-  password  String   @db.NVarChar(255)
-  address   String?  @db.NVarChar(255)
-  createdAt DateTime @default(dbgenerated("sysdatetime()"), map: "DF__User__createdAt__6383C8BA")
-  updatedAt DateTime @default(dbgenerated("sysdatetime()"), map: "DF__User__updatedAt__6477ECF3")
-  Cart      Cart[]
+model Roles {
+  id    Int     @id(map: "PK__Roles__3213E83F99BB7D9F") @default(autoincrement())
+  name  String  @unique(map: "UQ__Roles__72E12F1B67088A9B") @db.NVarChar(50)
+  Users Users[]
+}
+
+model Users {
+  id        Int         @id(map: "PK__Users__3213E83F50E463B8") @default(autoincrement())
+  email     String      @unique(map: "UQ__Users__AB6E6164126B4595") @db.NVarChar(255)
+  password  String      @db.NVarChar(255)
+  name      String?     @db.NVarChar(100)
+  role      String      @default("USER", map: "DF__Users__role__03F0984C") @db.NVarChar(20)
+  createdAt DateTime?   @default(now(), map: "DF__Users__createdAt__04E4BC85") @db.DateTime
+  updatedAt DateTime?   @default(now(), map: "DF__Users__updatedAt__05D8E0BE") @db.DateTime
+  roleId    Int?
+  Addresses Addresses[]
+  Carts     Carts[]
+  Roles     Roles?      @relation(fields: [roleId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "FK_Users_Roles")
 }

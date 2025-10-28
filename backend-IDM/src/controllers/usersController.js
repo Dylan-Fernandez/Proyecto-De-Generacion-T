@@ -14,7 +14,7 @@ module.exports = {
 
   updateProfile: async (req, res) => {
     try {
-      const data = req.body; // permitir firstName, lastName, email, address
+      const data = req.body; //permitir firstName, lastName, email, address
       const updated = await prisma.user.update({
         where: { id: req.user.id },
         data

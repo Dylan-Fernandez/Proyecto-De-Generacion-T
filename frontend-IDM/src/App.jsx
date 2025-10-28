@@ -1,4 +1,3 @@
-import Registro from './cliente/Registro'
 import './App.css';
 import Navbar from './componetes/Navbar';
 import Home from './pages/Home';
@@ -8,18 +7,19 @@ import Downloads from './pages/Downloads';
 import History from './pages/History';
 import Photos from './pages/Photos';
 import Footer from './componetes/Footer';
-import Sesion from './cliente/sesion';
+import Sesion from './cliente/Sesion';
 import Cart from './carrito/cart';
+import Registro from './cliente/Registro';
 import { useState, useEffect } from 'react';
 
 function App() {
   const [cart, setCart] = useState([]);
 
-  // 🔹 Al iniciar, cargar carrito local o remoto
+  //Al iniciar, cargar carrito local o remoto
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      // Cargar carrito desde el backend
+      //Cargar carrito desde el backend
       fetch('http://localhost:4000/api/cart', {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -39,13 +39,13 @@ function App() {
         })
         .catch((err) => console.error("Error al cargar carrito:", err));
     } else {
-      // Si no hay sesión, usar localStorage
+      //Si no hay sesión, usar localStorage
       const savedCart = localStorage.getItem('cart');
       if (savedCart) setCart(JSON.parse(savedCart));
     }
   }, []);
 
-  // 🔹 Guardar carrito local si no hay sesión
+  //Guardar carrito local si no hay sesión
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -53,7 +53,7 @@ function App() {
     }
   }, [cart]);
 
-  // 🟢 Agregar producto
+  //Agregar producto
   const addToCart = async (item) => {
     setCart((prev) => {
       const existing = prev.find((p) => p.id === item.id);
@@ -66,7 +66,7 @@ function App() {
       }
     });
 
-    // Si hay sesión, actualizar en backend
+    //Si hay sesión, actualizar en backend
     const token = localStorage.getItem('token');
     if (token) {
       await fetch('http://localhost:4000/api/cart/add', {
@@ -79,8 +79,6 @@ function App() {
       });
     }
   };
-
-  // 🔴 Eliminar producto
   const removeFromCart = async (id) => {
     setCart((prev) => prev.filter((p) => p.id !== id));
 
@@ -96,8 +94,6 @@ function App() {
       });
     }
   };
-
-  // 🟣 Actualizar cantidad
   const updateQuantity = (id, delta) => {
     setCart((prev) =>
       prev.map((p) =>
@@ -116,8 +112,8 @@ function App() {
         <Route path="/History" element={<History />} />
         <Route path="/Photos" element={<Photos />} />
         <Route path="/Sesion" element={<Sesion />} />
-        <Route path="/Cart" element={<Cart cart={cart}removeFromCart={removeFromCart}updateQuantity={updateQuantity}/>}
-        />
+        <Route path="/Registro" element={<Registro />} />
+        <Route path="/Cart" element={<Cart cart={cart}removeFromCart={removeFromCart}updateQuantity={updateQuantity}/>}/>
       </Routes>
       <Footer />
     </>

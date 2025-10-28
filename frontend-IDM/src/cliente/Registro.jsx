@@ -1,11 +1,10 @@
 import { useState } from "react";
 import "./Registro.css";
+
 function Registro() {
-   const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     nombre: "",
-    apellido: "",
     email: "",
-    usuario: "",
     contraseña: "",
     repetirContraseña: "",
   });
@@ -16,32 +15,38 @@ function Registro() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const manejarEnvio = (e) => {
+  async function manejarEnvio(e) {
     e.preventDefault();
-
-    const { nombre, apellido, email, usuario, contraseña, repetirContraseña } = formData;
-
-    if (!nombre || !apellido || !email || !usuario || !contraseña || !repetirContraseña) {
-      setMensaje("⚠️ Por favor completa todos los campos");
-      return;
-    }
+    const { nombre, email, contraseña, repetirContraseña } = formData;
 
     if (contraseña !== repetirContraseña) {
       setMensaje("❌ Las contraseñas no coinciden");
       return;
     }
 
-    // Acá iría la lógica para guardar los datos (por ahora solo simula)
-    setMensaje("✅ Registro exitoso. ¡Bienvenido/a!");
-    setFormData({
-      nombre: "",
-      apellido: "",
-      email: "",
-      usuario: "",
-      contraseña: "",
-      repetirContraseña: "",
-    });
-  };
+    try {
+      const respuesta = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: nombre, 
+          email,
+          password: contraseña, 
+        }),
+      });
+
+      const data = await respuesta.json();
+
+      if (respuesta.ok) {
+        setMensaje("✅ Registro exitoso. ¡Bienvenido/a!");
+      } else {
+        setMensaje(`⚠️ ${data.message || "Error en el registro"}`);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setMensaje("⚠️ Error al conectar con el servidor");
+    }
+  }
 
   return (
     <div className="register-container">
@@ -61,18 +66,6 @@ function Registro() {
         </div>
 
         <div className="input-group">
-          <label>Apellido</label>
-          <input
-            type="text"
-            name="apellido"
-            value={formData.apellido}
-            onChange={manejarCambio}
-            placeholder="Tu apellido"
-            required
-          />
-        </div>
-
-        <div className="input-group">
           <label>Email</label>
           <input
             type="email"
@@ -80,18 +73,6 @@ function Registro() {
             value={formData.email}
             onChange={manejarCambio}
             placeholder="ejemplo@correo.com"
-            required
-          />
-        </div>
-
-        <div className="input-group">
-          <label>Nombre de usuario</label>
-          <input
-            type="text"
-            name="usuario"
-            value={formData.usuario}
-            onChange={manejarCambio}
-            placeholder="Elige un usuario"
             required
           />
         </div>
@@ -129,4 +110,5 @@ function Registro() {
     </div>
   );
 }
+
 export default Registro;
