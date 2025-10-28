@@ -3,8 +3,8 @@ import "./Configuracion.css";
 
 function Configuracion() {
   const [userData, setUserData] = useState({
-    nombre: "Dylan",
-    apellido: "Fernández",
+    nombre: "",
+    apellido: "",
     contraseña: "",
     ubicacion: "",
     Localidad:"",

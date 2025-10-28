@@ -1,4 +1,5 @@
 import Registro from './cliente/Registro'
+import Configuracion from './cliente/Configuracion'
 import './App.css';
 import Navbar from './componetes/Navbar';
 import Home from './pages/Home';
@@ -117,6 +118,7 @@ function App() {
         <Route path="/Photos" element={<Photos />} />
         <Route path="/Sesion" element={<Sesion />} />
         <Route path="/Registro" element={<Registro />} />
+        <Route path="/Configuracion" element={<Configuracion />} />
         <Route path="/Cart" element={<Cart cart={cart}removeFromCart={removeFromCart}updateQuantity={updateQuantity}/>}
         />
       </Routes>
