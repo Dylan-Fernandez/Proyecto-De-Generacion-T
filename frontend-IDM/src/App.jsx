@@ -1,3 +1,4 @@
+import Registro from './cliente/Registro'
 import './App.css';
 import Navbar from './componetes/Navbar';
 import Home from './pages/Home';
@@ -115,15 +116,7 @@ function App() {
         <Route path="/History" element={<History />} />
         <Route path="/Photos" element={<Photos />} />
         <Route path="/Sesion" element={<Sesion />} />
-        <Route
-          path="/Cart"
-          element={
-            <Cart
-              cart={cart}
-              removeFromCart={removeFromCart}
-              updateQuantity={updateQuantity}
-            />
-          }
+        <Route path="/Cart" element={<Cart cart={cart}removeFromCart={removeFromCart}updateQuantity={updateQuantity}/>}
         />
       </Routes>
       <Footer />
