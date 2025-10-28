@@ -47,7 +47,7 @@
 }
 
 .downloads_link a {
-  color: white;
+  color: rgb(0, 0, 0);
   text-decoration: none;
   transition: 0.3s;
   word-break: break-all;
