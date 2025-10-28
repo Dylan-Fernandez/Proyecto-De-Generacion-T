@@ -39,7 +39,6 @@ const Navbar = ({ cart = [] }) => {
               )}
             </Link>
           </div>
-          <button>🌐</button>
           <div className="navbar__search-group1">
             {searchOpen && (
               <input
@@ -67,7 +66,6 @@ const Navbar = ({ cart = [] }) => {
             <img src={idm} alt="Logo derecha" />
             <div>
               <Link to="/Sesion">👤</Link>
-              <button>🌐</button>
               <Link to="/Cart" className="cart-icon">
                 🛒
                 {totalItems > 0 && (

@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Cart {
+  id        Int        @id(map: "PK__Cart__3213E83F3316CF3F") @default(autoincrement())
+  userId    Int
+  createdAt DateTime   @default(dbgenerated("sysdatetime()"), map: "DF__Cart__createdAt__6B24EA82")
+  updatedAt DateTime   @default(dbgenerated("sysdatetime()"), map: "DF__Cart__updatedAt__6C190EBB")
+  User      User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_Cart_User")
+  CartItem  CartItem[]
+
+  @@index([userId], map: "IX_Cart_UserId")
+}
+
+model CartItem {
+  id        Int      @id(map: "PK__CartItem__3213E83F6B0E4BC7") @default(autoincrement())
+  cartId    Int
+  productId Int
+  quantity  Int      @default(1, map: "DF__CartItem__quanti__6FE99F9F")
+  addedAt   DateTime @default(dbgenerated("sysdatetime()"), map: "DF__CartItem__addedA__70DDC3D8")
+  Cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_CartItem_Cart")
+  Product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "FK_CartItem_Product")
+
+  @@index([cartId], map: "IX_CartItem_CartId")
+  @@index([productId], map: "IX_CartItem_ProductId")
+}
+
+model Product {
+  id          Int        @id(map: "PK__Product__3213E83F65A2E8F6") @default(autoincrement())
+  name        String     @db.NVarChar(255)
+  description String?    @db.NVarChar(Max)
+  price       Float
+  imageUrl    String?    @db.NVarChar(500)
+  createdAt   DateTime   @default(dbgenerated("sysdatetime()"), map: "DF__Product__created__6754599E")
+  updatedAt   DateTime   @default(dbgenerated("sysdatetime()"), map: "DF__Product__updated__68487DD7")
+  CartItem    CartItem[]
+}
+
+model User {
+  id        Int      @id(map: "PK__User__3213E83F2E56C8B8") @default(autoincrement())
+  firstName String   @db.NVarChar(255)
+  lastName  String?  @db.NVarChar(255)
+  email     String   @unique(map: "UQ__User__AB6E6164D1AB3776") @db.NVarChar(255)
+  password  String   @db.NVarChar(255)
+  address   String?  @db.NVarChar(255)
+  createdAt DateTime @default(dbgenerated("sysdatetime()"), map: "DF__User__createdAt__6383C8BA")
+  updatedAt DateTime @default(dbgenerated("sysdatetime()"), map: "DF__User__updatedAt__6477ECF3")
+  Cart      Cart[]
+}

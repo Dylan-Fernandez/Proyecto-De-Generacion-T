@@ -5,9 +5,9 @@ const cartController = require('../controllers/cartController');
 
 router.use(auth);
 
-router.get('/', cartController.getCart); // obtener carrito del usuario
-router.post('/add', cartController.addItem); // { productId, quantity }
-router.post('/remove', cartController.removeItem); // { cartItemId }
+router.get('/', cartController.getCart); 
+router.post('/add', cartController.addItem); 
+router.post('/remove', cartController.removeItem); 
 router.post('/clear', cartController.clearCart);
 
 module.exports = router;
