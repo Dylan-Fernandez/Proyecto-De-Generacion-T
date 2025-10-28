@@ -116,6 +116,7 @@ function App() {
         <Route path="/History" element={<History />} />
         <Route path="/Photos" element={<Photos />} />
         <Route path="/Sesion" element={<Sesion />} />
+        <Route path="/Registro" element={<Registro />} />
         <Route path="/Cart" element={<Cart cart={cart}removeFromCart={removeFromCart}updateQuantity={updateQuantity}/>}
         />
       </Routes>
