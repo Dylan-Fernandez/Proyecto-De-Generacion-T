@@ -32,6 +32,7 @@ const Navbar = ({ cart = [] }) => {
         <div className="navbar__icons pc-only">
           <div className="navbar__iconsend">
             <Link to="/Sesion">👤</Link>
+            <Link to="/Configuracion">⚙️</Link>
             <Link to="/Cart" className="cart-icon">
               🛒
               {totalItems > 0 && (
