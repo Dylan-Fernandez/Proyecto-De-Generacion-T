@@ -11,18 +11,40 @@ h1,h2{
     margin: 2px;
 }
 
-a{
-    text-decoration: none;
-    color: unset;
-    transition: 0.4s;
+.navbar__links a,.mobile-menu a, a {
+  text-decoration: none;
+  color: black;
+  transition: 0.4s;
+  font-size: 20px;
 }
-a:hover{
-    font-size: 23px;
-    color: white;
-    background-color:#013750;
-    padding: 4px 1px;
-    border-radius: 10px;
-    text-shadow: 0 0 4px white;
+
+.navbar__links a:hover,.mobile-menu a:hover, a:hover {
+  font-size: 23px;
+  color: white;
+  background-color: #013750;
+  padding: 4px 1px;
+  border-radius: 10px;
+  text-shadow: 0 0 4px white;
+}
+.navbar__iconsend a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;   
+  width: 40px;    
+}
+
+.navbar__iconsend a span {
+  display: inline-block;
+  transition: transform 0.3s, color 0.3s, background-color 0.3s;
+}
+
+.navbar__iconsend a:hover span {
+  transform: translateY(-5px) scale(1.2);
+  color: white;
+  background-color: #013750;
+  border-radius: 10px;
+  text-shadow: 0 0 4px white;
 }
 
 .title {
