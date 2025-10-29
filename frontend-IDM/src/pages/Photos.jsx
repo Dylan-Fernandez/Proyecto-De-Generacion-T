@@ -1,4 +1,4 @@
-// src/pages/Contacts.jsx
+import "./Photos.css";
 
 const Photos = () => {
     return (
@@ -10,3 +10,4 @@ const Photos = () => {
 };
 
 export default Photos;  // <-- Esta línea es clave
+// la linea de arriba si es clave wazaa

@@ -13,16 +13,18 @@ h2 {
 }
 
 .title {
+    background-color: #4CB7A7;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 50px;
     margin: 10px 0;
     width: 100%;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 .logo {
-    background-color: aqua;
     border-radius: 30px;
     padding: 0 30px;
     text-align: center;
@@ -39,6 +41,8 @@ h2 {
     position: sticky;
     top: 0%;
     z-index: 100;
+    border-top: 5px solid #40E0D0;
+    border-bottom: 5px solid #40E0D0;
 }
 
 .navbar__links {
