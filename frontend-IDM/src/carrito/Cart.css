@@ -53,9 +53,12 @@
 
 .cart-controls {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  justify-content: center; 
+  align-items: center;       
+  gap: 30px;
+  width: 100%;
 }
+
 
 .cart-controls button {
   background: #ffe600;
