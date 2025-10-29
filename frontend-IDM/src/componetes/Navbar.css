@@ -7,9 +7,22 @@ img {
     height: 90px;
 }
 
-h1,
-h2 {
+h1,h2{
     margin: 2px;
+}
+
+a{
+    text-decoration: none;
+    color: unset;
+    transition: 0.4s;
+}
+a:hover{
+    font-size: 23px;
+    color: white;
+    background-color:#013750;
+    padding: 4px 1px;
+    border-radius: 10px;
+    text-shadow: 0 0 4px white;
 }
 
 .title {
@@ -41,7 +54,6 @@ h2 {
     position: sticky;
     top: 0%;
     z-index: 100;
-    border-top: 5px solid #40E0D0;
     border-bottom: 5px solid #40E0D0;
 }
 
@@ -58,9 +70,7 @@ h2 {
     justify-content: space-around;
 }
 
-.navbar__search-group1,
-.navbar__search-group2,
-.bus {
+.navbar__search-group1,.navbar__search-group2,.bus {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -72,7 +82,7 @@ h2 {
 }
 
 button {
-    margin: 0 spx;
+    margin: 0px;
     padding: 6px 10px;
     font-size: 16px;
     border: none;
@@ -82,9 +92,18 @@ button {
 }
 
 .cart-icon {
+
   position: relative;
   text-decoration: none;
   color: black;
+}
+.cart-icon:hover {
+    font-size: 23px;
+    color: white;
+    background-color:#013750;
+    padding: 4px 1px;
+    border-radius: 10px;
+    text-shadow: 0 0 4px white;
 }
 .cart-count {
   position: absolute;
@@ -110,9 +129,8 @@ button {
     flex-wrap: wrap;
     align-content: center;
     justify-content: space-around;
-    width: 100px;
+    width: 150px;
     font-size: 22px;
-
 }
 @media (max-width: 768px) {
     img {
