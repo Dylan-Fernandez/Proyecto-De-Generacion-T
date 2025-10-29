@@ -11,14 +11,14 @@ h1,h2{
     margin: 2px;
 }
 
-.navbar__links a,.mobile-menu a, a {
+.navbar__links a,.mobile-menu a{
   text-decoration: none;
   color: black;
   transition: 0.4s;
   font-size: 20px;
 }
 
-.navbar__links a:hover,.mobile-menu a:hover, a:hover {
+.navbar__links a:hover,.mobile-menu a:hover{
   font-size: 23px;
   color: white;
   background-color: #013750;
