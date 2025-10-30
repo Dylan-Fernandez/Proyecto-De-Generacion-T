@@ -22,7 +22,7 @@ function Cart({ cart, removeFromCart, updateQuantity }) {
     try {
       setLoading(true);
 
-      // Vaciar carrito en backend (simulación de compra final)
+      //Vaciar carrito en backend (simulación de compra final)
       await fetch(`${API_URL}/clear`, {
         method: "POST",
         headers: {
@@ -47,50 +47,52 @@ function Cart({ cart, removeFromCart, updateQuantity }) {
   };
 
   return (
-    <div className="cart-container">
-      <h1>🛒 Tu carrito</h1>
+  <div className="cart-container">
+  <h1>🛒 Tu carrito</h1>
 
-      {cart.length === 0 ? (
-        <p className="empty">Tu carrito está vacío.</p>
-      ) : (
-        <>
-          {cart.map((p) => (
-            <div className="cart-item" key={p.id}>
-              <img
-                src={p.imageUrl || p.img || "https://via.placeholder.com/80"}
-                alt={p.name}
-              />
-              <div className="cart-info">
-                <h3>{p.name}</h3>
-                <div className="cart-bottom">
-                  <div className="cart-controls">
-                    <button onClick={() => updateQuantity(p.id, -1)}>-</button>
-                    <span>{p.quantity}</span>
-                    <button onClick={() => updateQuantity(p.id, 1)}>+</button>
-                    <button
-                      className="remove"
-                      onClick={() => removeFromCart(p.id)}
-                    >
-                      🗑️
-                    </button>
-                  </div>
-                  <p className="cart-price">${p.price}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+  {cart.length === 0 ? (
+    <p className="empty">Tu carrito está vacío.</p>
+  ) : (
+    <>
+      {cart.map((p) => (
+        <div className="cart-item" key={p.id}>
+          <div className="cart-image">
+            <img
+              src={p.imageUrl || p.img || "https://via.placeholder.com/80"}
+              alt={p.name}
+            />
+          </div>
+          <div className="cart-name">
+            <h3>{p.name}</h3>
+          </div>
+          <div className="cart-price">
+            <p>${p.price}</p>
+          </div>
+          <div className="cart-controls-vertical">
+            <button onClick={() => updateQuantity(p.id, -1)}>-</button>
+            <span>{p.quantity}</span>
+            <button onClick={() => updateQuantity(p.id, 1)}>+</button>
+            <button
+              className="remove"
+              onClick={() => removeFromCart(p.id)}
+            >
+              🗑️
+            </button>
+          </div>
+        </div>
+      ))}
+      <h2 className="cart-total">Total: ${total.toFixed(2)}</h2>
+      <button
+        className="checkout"
+        onClick={handleCheckout}
+        disabled={loading}
+      >
+        {loading ? "Procesando..." : "Finalizar compra"}
+      </button>
+    </>
+  )}
+</div>
 
-          <h2 className="cart-total">Total: ${total.toFixed(2)}</h2>
-          <button
-            className="checkout"
-            onClick={handleCheckout}
-            disabled={loading}
-          >
-            {loading ? "Procesando..." : "Finalizar compra"}
-          </button>
-        </>
-      )}
-    </div>
   );
 }
 
