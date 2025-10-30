@@ -2,18 +2,22 @@ import { useEffect, useState } from "react";
 import "./Products.css";
 
 const API_URL = "http://localhost:5000/api/products";
+const BACKEND_URL = "http://localhost:5000";
 
 const Products = ({ addToCart }) => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-
-  // 🟢 Cargar productos desde el backend
   useEffect(() => {
     fetch(API_URL)
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => console.error("Error al cargar productos:", err));
   }, []);
+  const getImageUrl = (imageUrl) => {
+    if (!imageUrl) return "/assets/test.jpg";
+    if (imageUrl.startsWith("http")) return imageUrl;
+    return `${BACKEND_URL}${imageUrl}`;
+  };
 
   return (
     <div className="products-section">
@@ -26,7 +30,7 @@ const Products = ({ addToCart }) => {
             key={p.id}
             onClick={() => setSelectedProduct(p)}
           >
-            <img src={p.imageUrl || p.img || "/assets/test.jpg"} alt={p.name} />
+            <img src={getImageUrl(p.imageUrl)} alt={p.name} />
             <h3>{p.name}</h3>
             <p>${p.price}</p>
             <button
@@ -45,7 +49,7 @@ const Products = ({ addToCart }) => {
         <div className="modal-overlay" onClick={() => setSelectedProduct(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <img
-              src={selectedProduct.imageUrl || "/assets/test.jpg"}
+              src={getImageUrl(selectedProduct.imageUrl)}
               alt={selectedProduct.name}
             />
             <h2>{selectedProduct.name}</h2>

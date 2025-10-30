@@ -1,9 +1,20 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { getAllProducts, createProduct } = require('../controllers/productController');
+const upload = require("../middleware/upload"); 
+const {
+  getAllProducts,
+  createProduct,
+  uploadProductImage,
+} = require("../controllers/productController");
+router.get("/", getAllProducts);
+router.post("/", upload.single("image"), createProduct);
+function uploadEitherField(req, res, next) {
+  upload.single("image")(req, res, function (err) {
+    if (err) return next(err);
+    if (req.file) return next(); 
+  });
+}
 
-//Rutas de productos
-router.get('/', getAllProducts);
-router.post('/', createProduct);
+router.post("/:id/upload", uploadEitherField, uploadProductImage);
 
 module.exports = router;
