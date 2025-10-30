@@ -11,16 +11,17 @@ import Sesion from './cliente/Sesion';
 import Cart from './carrito/cart';
 import Registro from './cliente/Registro';
 import { useState, useEffect } from 'react';
+import PrivateRoute from "./componetes/PrivateRoute";
+import { AuthProvider } from "./cliente/AuthContext"; // ✅ IMPORTANTE
 
 function App() {
   const [cart, setCart] = useState([]);
 
-  //Al iniciar, cargar carrito local o remoto
+  // Cargar carrito al iniciar
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      //Cargar carrito desde el backend
-      fetch('http://localhost:4000/api/cart', {
+      fetch('http://localhost:5000/api/cart', {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => res.json())
@@ -39,13 +40,12 @@ function App() {
         })
         .catch((err) => console.error("Error al cargar carrito:", err));
     } else {
-      //Si no hay sesión, usar localStorage
       const savedCart = localStorage.getItem('cart');
       if (savedCart) setCart(JSON.parse(savedCart));
     }
   }, []);
 
-  //Guardar carrito local si no hay sesión
+  // Guardar carrito local si no hay sesión
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -53,7 +53,7 @@ function App() {
     }
   }, [cart]);
 
-  //Agregar producto
+  // Agregar producto
   const addToCart = async (item) => {
     setCart((prev) => {
       const existing = prev.find((p) => p.id === item.id);
@@ -66,10 +66,9 @@ function App() {
       }
     });
 
-    //Si hay sesión, actualizar en backend
     const token = localStorage.getItem('token');
     if (token) {
-      await fetch('http://localhost:4000/api/cart/add', {
+      await fetch('http://localhost:5000/api/cart/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,12 +78,14 @@ function App() {
       });
     }
   };
+
+  // Eliminar producto
   const removeFromCart = async (id) => {
     setCart((prev) => prev.filter((p) => p.id !== id));
 
     const token = localStorage.getItem('token');
     if (token) {
-      await fetch('http://localhost:4000/api/cart/remove', {
+      await fetch('http://localhost:5000/api/cart/remove', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -94,6 +95,8 @@ function App() {
       });
     }
   };
+
+  // Cambiar cantidad
   const updateQuantity = (id, delta) => {
     setCart((prev) =>
       prev.map((p) =>
@@ -103,7 +106,7 @@ function App() {
   };
 
   return (
-    <>
+    <AuthProvider>
       <Navbar cart={cart} />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -113,10 +116,21 @@ function App() {
         <Route path="/Photos" element={<Photos />} />
         <Route path="/Sesion" element={<Sesion />} />
         <Route path="/Registro" element={<Registro />} />
-        <Route path="/Cart" element={<Cart cart={cart}removeFromCart={removeFromCart}updateQuantity={updateQuantity}/>}/>
+        <Route
+          path="/Cart"
+          element={
+            <PrivateRoute>
+              <Cart
+                cart={cart}
+                removeFromCart={removeFromCart}
+                updateQuantity={updateQuantity}
+              />
+            </PrivateRoute>
+          }
+        />
       </Routes>
       <Footer />
-    </>
+    </AuthProvider>
   );
 }
 

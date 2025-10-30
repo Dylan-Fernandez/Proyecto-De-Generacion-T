@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Cart.css";
 
-const API_URL = "http://localhost:4000/api/cart";
+const API_URL = "http://localhost:5000/api/cart";
 
 function Cart({ cart, removeFromCart, updateQuantity }) {
   const [loading, setLoading] = useState(false);

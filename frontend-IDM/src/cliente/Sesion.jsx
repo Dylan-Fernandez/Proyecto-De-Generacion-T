@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useAuth } from "../cliente/AuthContext";
 import "./Sesion.css";
 import { Link } from "react-router-dom";
 
@@ -6,6 +7,7 @@ function Sesion() {
   const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [mensaje, setMensaje] = useState("");
+  const { login } = useAuth();
 
   async function manejarEnvio(e) {
     e.preventDefault();
@@ -14,19 +16,15 @@ function Sesion() {
       const respuesta = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          password: contraseña, // ✅ debe ser "password"
-        }),
-
+        body: JSON.stringify({ email, password: contraseña }),
       });
 
       const data = await respuesta.json();
 
       if (respuesta.ok) {
         setMensaje("✅ Inicio de sesión exitoso");
-        console.log("Token recibido:", data.token);
-        // Aquí puedes guardar el token: localStorage.setItem("token", data.token);
+        login(data.user, data.token); // 👈 guardamos la sesión globalmente
+        window.location.href = "/"; // redirige al home
       } else {
         setMensaje(`❌ ${data.message || "Error al iniciar sesión"}`);
       }

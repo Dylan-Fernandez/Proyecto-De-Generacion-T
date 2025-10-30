@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const path = require("path");
+require('dotenv').config();
 
 const productRoutes = require("./src/routes/productRoutes");
 const cartRoutes = require("./src/routes/cartRoutes");
