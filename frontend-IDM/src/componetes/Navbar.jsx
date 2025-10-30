@@ -22,7 +22,7 @@ const Navbar = ({ cart = [] }) => {
       </div>
       <header className="navbar">
         <nav className="navbar__links pc-only">
-          <Link to="/">Home</Link>
+          <Link to="/">Inicio</Link>
           <Link to="/Product">Productos</Link>
           <Link to="/Downloads">Descargas</Link>
           <Link to="/History">Historia</Link>
@@ -120,7 +120,7 @@ const Navbar = ({ cart = [] }) => {
 
         {menuOpen && (
           <div className="mobile-menu mobile-only">
-            <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
+            <Link to="/" onClick={() => setMenuOpen(false)}>Inicio</Link>
             <Link to="/Product" onClick={() => setMenuOpen(false)}>Productos</Link>
             <Link to="/Downloads" onClick={() => setMenuOpen(false)}>Descargas</Link>
             <Link to="/History" onClick={() => setMenuOpen(false)}>Historia</Link>
