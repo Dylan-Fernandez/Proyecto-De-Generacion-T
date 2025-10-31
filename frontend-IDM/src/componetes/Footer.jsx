@@ -60,7 +60,7 @@ function Footer() {
             <img src={twitter} alt="Twitter" className="icon" /> Twitter
           </a>
 
-          <a href="mailto:idmoficial@gmail.com">
+          <a href="mailto:idm.cuenta.oficial@gmail.com">
             <img src={gmail} alt="Gmail" className="icon" /> Gmail
           </a>
 
