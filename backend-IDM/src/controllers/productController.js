@@ -1,15 +1,11 @@
 const prisma = require("../config/connection");
-
-//Helper para construir URL completa de la imagen
 function buildFullUrl(req, filePath) {
   const protocol = req.protocol;
-  const host = req.get("host"); // incluye puerto si aplica
-  //filePath ya tendrá formato "/uploads/filename.ext" o "uploads/filename.ext"
+  const host = req.get("host");
   const cleaned = filePath.startsWith("/") ? filePath : `/${filePath}`;
   return `${protocol}://${host}${cleaned}`;
 }
 
-//Obtener todos los productos
 exports.getAllProducts = async (req, res) => {
   try {
     const products = await prisma.products.findMany({
@@ -22,14 +18,12 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-//Crear producto (acepta form-data con campo "image" para la imagen)
 exports.createProduct = async (req, res) => {
   try {
     const { name, description, price } = req.body;
 
     let imageUrl = null;
     if (req.file) {
-      //req.file.path es la ruta local; guardamos la URL completa
       const relativePath = `/uploads/${req.file.filename}`;
       imageUrl = buildFullUrl(req, relativePath);
     }
@@ -50,7 +44,6 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-// Actualizar la imagen de un producto existente
 exports.uploadProductImage = async (req, res) => {
   try {
     const { id } = req.params;
@@ -58,10 +51,8 @@ exports.uploadProductImage = async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: "No se envió ninguna imagen" });
     }
-
     const relativePath = `/uploads/${req.file.filename}`;
     const imageUrl = buildFullUrl(req, relativePath);
-
     const product = await prisma.products.update({
       where: { id: Number(id) },
       data: { imageUrl },

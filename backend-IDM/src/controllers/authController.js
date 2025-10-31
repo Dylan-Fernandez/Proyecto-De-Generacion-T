@@ -1,11 +1,8 @@
-// src/controllers/authController.js
 const prisma = require("../config/connection");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.JWT_SECRET || "MiClaveSuperSecreta$123!Unica";
 
-const JWT_SECRET = process.env.JWT_SECRET || "clave-super-secreta"; // 🔄 unificado con cartController
-
-// Registro de usuario
 const registerUser = async (req, res) => {
   try {
     const { email, password, name } = req.body;
@@ -35,7 +32,6 @@ const registerUser = async (req, res) => {
   }
 };
 
-// Login de usuario
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -54,7 +50,6 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ message: "Contraseña incorrecta" });
     }
 
-    // Token con duración 7 días
     const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: "7d" });
 
     res.json({
@@ -68,7 +63,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-// Verificar token
+
 const verifyToken = async (req, res) => {
   try {
     const authHeader = req.headers.authorization;

@@ -39,6 +39,8 @@ function Registro() {
 
       if (respuesta.ok) {
         setMensaje("✅ Registro exitoso. ¡Bienvenido/a!");
+         window.location.href = "/Sesion"; 
+
       } else {
         setMensaje(`⚠️ ${data.message || "Error en el registro"}`);
       }

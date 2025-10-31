@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState} from "react";
 import { useAuth } from "../cliente/AuthContext";
 import "./Sesion.css";
 import { Link } from "react-router-dom";
@@ -9,7 +9,7 @@ function Sesion() {
   const [mensaje, setMensaje] = useState("");
   const { login } = useAuth();
 
-  async function manejarEnvio(e) {
+  const manejarEnvio = async (e) => {
     e.preventDefault();
 
     try {
@@ -23,8 +23,20 @@ function Sesion() {
 
       if (respuesta.ok) {
         setMensaje("✅ Inicio de sesión exitoso");
-        login(data.user, data.token); // 👈 guardamos la sesión globalmente
-        window.location.href = "/"; // redirige al home
+        localStorage.setItem("token", data.token);
+        console.log("Token guardado en localStorage:", data.token);
+        const token = localStorage.getItem("token");
+        const response = await fetch("http://localhost:5000/api/user/update", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          body: JSON.stringify({ firstName: "NuevoNombre", lastName: "NuevoApellido" }),
+        });
+
+        login(data.user, data.token);
+        window.location.href = "/"; 
       } else {
         setMensaje(`❌ ${data.message || "Error al iniciar sesión"}`);
       }
@@ -32,7 +44,7 @@ function Sesion() {
       console.error("Error:", error);
       setMensaje("⚠️ Error al conectar con el servidor");
     }
-  }
+  };
 
   return (
     <div className="login-container">

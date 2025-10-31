@@ -1,46 +1,52 @@
 const prisma = require('../config/connection');
 const jwt = require('jsonwebtoken');
 
-// Middleware para obtener el usuario desde el token
 const getUserFromToken = (req) => {
   const header = req.headers.authorization;
   if (!header) return null;
-  
-  // Extraer token del header
   const token = header.split(' ')[1];
-  
   if (!token) return null;
 
   try {
-    // Verificar el token con la clave secreta
-    return jwt.verify(token, process.env.JWT_SECRET);  // Usar 'JWT_SECRET' desde el .env
+    return jwt.verify(token, process.env.JWT_SECRET); 
   } catch (error) {
     console.error("Error al verificar token:", error.message);
-    return null; // Devolver null si hay error al verificar el token
+    return null; 
   }
 };
 
-// ✅ Obtener carrito
 exports.getCart = async (req, res) => {
   try {
     const user = getUserFromToken(req);
-    if (!user) return res.status(401).json({ message: 'Token inválido o faltante' });
+    if (!user) {
+      console.log("Token inválido o faltante");
+      return res.status(401).json({ message: 'Token inválido o faltante' });
+    }
 
     const cart = await prisma.carts.findFirst({
       where: { userId: user.id },
-      include: { CartItems: { include: { product: true } } },
+      include: { CartItems: { include: { Products: true } } },
     });
 
-    if (!cart) return res.json({ items: [] });
+    if (!cart || !cart.CartItems || cart.CartItems.length === 0) {
+      return res.json({ items: [] });
+    }
 
     res.json({
-      items: cart.CartItems.map(item => ({
-        id: item.product.id,
-        name: item.product.name,
-        price: item.product.price,
-        imageUrl: item.product.imageUrl,
-        quantity: item.quantity,
-      })),
+      items: cart.CartItems.map(item => {
+
+        if (!item.Products) {
+          return {};
+        }
+        
+        return {
+          id: item.Products.id,
+          name: item.Products.name,
+          price: item.Products.price,
+          imageUrl: item.Products.imageUrl,
+          quantity: item.qty,
+        };
+      }),
     });
   } catch (error) {
     console.error('Error al obtener carrito:', error);
@@ -48,19 +54,21 @@ exports.getCart = async (req, res) => {
   }
 };
 
-// ✅ Agregar producto
 exports.addToCart = async (req, res) => {
   try {
     const user = getUserFromToken(req);
-    if (!user) return res.status(401).json({ message: 'Token inválido o faltante' });
+    if (!user) {
+      console.log("Token inválido o faltante");
+      return res.status(401).json({ message: 'Token inválido o faltante' });
+    }
 
-    const { productId, quantity } = req.body;
+    const { productId, qty } = req.body;
 
-    // Buscar o crear carrito
     let cart = await prisma.carts.findFirst({ where: { userId: user.id } });
-    if (!cart) cart = await prisma.carts.create({ data: { userId: user.id } });
+    if (!cart) {
+      cart = await prisma.carts.create({ data: { userId: user.id } });
+    }
 
-    // Verificar si ya existe el producto
     const existing = await prisma.cartItems.findFirst({
       where: { cartId: cart.id, productId },
     });
@@ -68,11 +76,11 @@ exports.addToCart = async (req, res) => {
     if (existing) {
       await prisma.cartItems.update({
         where: { id: existing.id },
-        data: { quantity: existing.quantity + quantity },
+        data: { qty: existing.qty + qty }, 
       });
     } else {
       await prisma.cartItems.create({
-        data: { cartId: cart.id, productId, quantity },
+        data: { cartId: cart.id, productId, qty },
       });
     }
 
@@ -83,15 +91,14 @@ exports.addToCart = async (req, res) => {
   }
 };
 
-// ✅ Eliminar producto
 exports.removeFromCart = async (req, res) => {
   try {
     const user = getUserFromToken(req);
     if (!user) return res.status(401).json({ message: 'Token inválido o faltante' });
 
     const { productId } = req.body;
-
     const cart = await prisma.carts.findFirst({ where: { userId: user.id } });
+    
     if (!cart) return res.status(404).json({ message: 'Carrito no encontrado' });
 
     await prisma.cartItems.deleteMany({
@@ -105,7 +112,6 @@ exports.removeFromCart = async (req, res) => {
   }
 };
 
-// ✅ Vaciar carrito
 exports.clearCart = async (req, res) => {
   try {
     const user = getUserFromToken(req);
