@@ -34,7 +34,7 @@ const Photos = () => {
 
         <div className="photo">
           <img className="photo_img" src={idmv2baño} alt="Segunda versión de I.D.M indicando ir al baño" />
-          <h3>Segunda versión de I.D.M<br />Necesita ir al baño</h3>
+          <h3>Segunda version de Scratch de I.D.M<br />"Quiero ir al baño"</h3>
         </div>
 
         <div className="photo">
@@ -43,18 +43,18 @@ const Photos = () => {
         </div>
 
         <div className="photo">
-          <img className="photo_img" src={proto2} alt="Prototipo mejorado de I.D.M" />
-          <h3>Prototipo mejorado<br />de I.D.M</h3>
+          <img className="photo_img" src={proto2} alt="Prototipo en uso de I.D.M" />
+          <h3>Prototipo usado por los chicos<br /> de la escuela 505</h3>
         </div>
 
         <div className="photo">
           <img className="photo_img" src={btn} alt="Diseño del botón de I.D.M" />
-          <h3>Diseño final<br />del botón I.D.M</h3>
+          <h3>Diseño final<br />de la botonera I.D.M</h3>
         </div>
 
         <div className="photo">
           <img className="photo_img" src={btnuso} alt="Alumno utilizando botón I.D.M" />
-          <h3>Chico usando<br />el botón I.D.M</h3>
+          <h3>Chica usando<br />la botonera I.D.M</h3>
         </div>
 
         <div className="photo">
@@ -74,7 +74,7 @@ const Photos = () => {
 
         <div className="photo">
           <img className="photo_img" src={btnuso4} alt="Alumno usando botón I.D.M" />
-          <h3>Otra experiencia<br />con los botones</h3>
+          <h3>Otra experiencia<br />con la botonera I.D.M</h3>
         </div>
       </div>
     </section>
