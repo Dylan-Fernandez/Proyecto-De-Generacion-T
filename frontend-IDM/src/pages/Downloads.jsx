@@ -77,9 +77,9 @@ const Downloads = () => {
           <div className="downloads_android_link">
             <h4 className="IDM_title">I.D.M</h4>
             
-            <a href="https://google.com"><img src={IDM_logo} alt="" /></a>
+            <img src={IDM_logo} alt="" />
             <p>Peso: 24.8 MB <br />Version: APK V3 </p>
-            <a href="hhtps://google.com"><h4>Descargar</h4></a>
+            <a href="https://mega.nz/file/mj5CXCLA#pXI-RqMFkemz6OOVIH0FATVLX7TWXviPjfCKSpYEyws"><h4>Descargar</h4></a>
           </div>
         </section>
     </section>
