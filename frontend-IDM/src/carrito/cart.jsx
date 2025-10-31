@@ -13,7 +13,7 @@ function Cart({ cart, removeFromCart, updateQuantity }) {
 
   const handleCheckout = async () => {
     const token = localStorage.getItem("token");
-
+    console.log("Token JWT en frontend:", token); 
     if (!token) {
       alert("Debes iniciar sesión para comprar.");
       return;
@@ -21,8 +21,6 @@ function Cart({ cart, removeFromCart, updateQuantity }) {
 
     try {
       setLoading(true);
-
-      //Vaciar carrito en backend (simulación de compra final)
       await fetch(`${API_URL}/clear`, {
         method: "POST",
         headers: {

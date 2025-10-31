@@ -1,28 +1,60 @@
-const prisma = require('../db/connection');
+const prisma = require('../config/connection');
+const bcrypt = require('bcrypt');
 
 module.exports = {
-  getProfile: async (req, res) => {
-    const user = req.user;
-    res.json({
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      address: user.address
-    });
-  },
-
   updateProfile: async (req, res) => {
     try {
-      const data = req.body; //permitir firstName, lastName, email, address
-      const updated = await prisma.user.update({
-        where: { id: req.user.id },
-        data
+      const { name, email, password, address } = req.body;
+
+      let updatedData = { name, email };
+
+      if (password) {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        updatedData.password = hashedPassword;
+      }
+
+      const updatedUser = await prisma.users.update({
+        where: { id: req.user.id }, 
+        data: updatedData
       });
-      res.json({ message: 'Perfil actualizado', user: updated });
+
+      if (address) {
+        const existingAddress = await prisma.addresses.findFirst({
+          where: {
+            userId: req.user.id, 
+          }
+        });
+
+        if (existingAddress) {
+          const userAddress = await prisma.addresses.update({
+            where: { id: existingAddress.id }, 
+            data: {
+              street: address.street,
+              city: address.city,
+              state: address.state,
+              country: address.country,
+              postal: address.postal || ""
+            }
+          });
+          console.log("Dirección actualizada:", userAddress);
+        } else {
+          const userAddress = await prisma.addresses.create({
+            data: {
+              userId: req.user.id, 
+              street: address.street,
+              city: address.city,
+              state: address.state,
+              country: address.country,
+              postal: address.postal || ""
+            }
+          });
+          console.log("Dirección creada:", userAddress);
+        }
+      }
+
+      res.json({ message: "Perfil actualizado correctamente", user: updatedUser });
     } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: 'Error al actualizar' });
+      res.status(500).json({ message: "Error al actualizar el perfil", error: err });
     }
   }
 };
