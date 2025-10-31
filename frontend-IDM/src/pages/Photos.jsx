@@ -10,11 +10,21 @@ import ganadores from "./img/ganadores.jpeg";
 import btnuso2 from "./img/btnuso2.jpeg";
 import btnuso3 from "./img/btnuso3.jpeg";
 import btnuso4 from "./img/btnuso4.jpeg";
+import premio from "./img/premio.jpg";
 
 const Photos = () => {
   return (
     <section className="photos" id="fotos">
       <h2 className="photos_title">FOTOS</h2>
+
+      <div className="premio">
+        <img className="premio_img" src={premio} alt="Premio recibido por el proyecto" />
+        <p className="premio_text">
+          🏆 Premio al Proyecto I.D.M  🏆: Reconocimiento al esfuerzo, creatividad e innovación
+          del equipo en el desarrollo de soluciones inclusivas.<br />En la Feria provincial de re de robotica y soluciones de automatizacion  <br /><br />
+          📍UBICACION📍: Camping Carlitos Quintana, La Plata 29/10/25
+        </p>
+      </div>
 
       <div className="photos_all">
         <div className="photo">
