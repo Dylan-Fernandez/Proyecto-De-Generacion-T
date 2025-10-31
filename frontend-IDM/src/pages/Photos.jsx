@@ -10,11 +10,21 @@ import ganadores from "./img/ganadores.jpeg";
 import btnuso2 from "./img/btnuso2.jpeg";
 import btnuso3 from "./img/btnuso3.jpeg";
 import btnuso4 from "./img/btnuso4.jpeg";
+import premio from "./img/premio.jpg";
 
 const Photos = () => {
   return (
     <section className="photos" id="fotos">
       <h2 className="photos_title">FOTOS</h2>
+
+      <div className="premio">
+        <img className="premio_img" src={premio} alt="Premio recibido por el proyecto" />
+        <p className="premio_text">
+          🏆 Premio al Proyecto I.D.M  🏆: Reconocimiento al esfuerzo, creatividad e innovación
+          del equipo en el desarrollo de soluciones inclusivas.<br />En la Feria provincial de re de robotica y soluciones de automatizacion  <br /><br />
+          📍UBICACION📍: Camping Carlitos Quintana, La Plata 29/10/25
+        </p>
+      </div>
 
       <div className="photos_all">
         <div className="photo">
@@ -24,7 +34,7 @@ const Photos = () => {
 
         <div className="photo">
           <img className="photo_img" src={idmv2baño} alt="Segunda versión de I.D.M indicando ir al baño" />
-          <h3>Segunda versión de I.D.M<br />Necesita ir al baño</h3>
+          <h3>Segunda version de Scratch de I.D.M<br />"Quiero ir al baño"</h3>
         </div>
 
         <div className="photo">
@@ -33,18 +43,18 @@ const Photos = () => {
         </div>
 
         <div className="photo">
-          <img className="photo_img" src={proto2} alt="Prototipo mejorado de I.D.M" />
-          <h3>Prototipo mejorado<br />de I.D.M</h3>
+          <img className="photo_img" src={proto2} alt="Prototipo en uso de I.D.M" />
+          <h3>Prototipo usado por los chicos<br /> de la escuela 505</h3>
         </div>
 
         <div className="photo">
           <img className="photo_img" src={btn} alt="Diseño del botón de I.D.M" />
-          <h3>Diseño final<br />del botón I.D.M</h3>
+          <h3>Diseño final<br />de la botonera I.D.M</h3>
         </div>
 
         <div className="photo">
           <img className="photo_img" src={btnuso} alt="Alumno utilizando botón I.D.M" />
-          <h3>Chico usando<br />el botón I.D.M</h3>
+          <h3>Chica usando<br />la botonera I.D.M</h3>
         </div>
 
         <div className="photo">
@@ -64,7 +74,7 @@ const Photos = () => {
 
         <div className="photo">
           <img className="photo_img" src={btnuso4} alt="Alumno usando botón I.D.M" />
-          <h3>Otra experiencia<br />con los botones</h3>
+          <h3>Otra experiencia<br />con la botonera I.D.M</h3>
         </div>
       </div>
     </section>
