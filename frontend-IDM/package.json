@@ -12,7 +12,7 @@
     "check-npm": "node -v && npm -v"
   },
   "engines": {
-    "node": "v24.11.0",
+    "node": "v20.19.5",
     "npm": "11.6.2"
   },
   "dependencies": {
