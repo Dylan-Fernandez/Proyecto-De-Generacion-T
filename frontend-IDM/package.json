@@ -11,8 +11,8 @@
     "start": "serve dist -s -n -L -p $PORT"
   },
   "engines": {
-    "node": "22.15.1",
-    "npm": "10.9.2"
+    "node": "16.x",
+    "npm": "8.x"
   },
   "dependencies": {
     "i18next": "^25.6.0",
