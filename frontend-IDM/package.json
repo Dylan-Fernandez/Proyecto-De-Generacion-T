@@ -10,7 +10,10 @@
     "preview": "vite preview",
     "start": "serve dist -s -n -L -p $PORT"
   },
- 
+  "engines": {
+    "node": "v22.15.1",
+    "npm": "10.9.2"
+  },
   "dependencies": {
     "i18next": "^25.6.0",
     "react": "^19.2.0",
