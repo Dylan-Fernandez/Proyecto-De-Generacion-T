@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "serve dist -s -n -L -p $PORT",
+    "start": "node index.js",
     "check-npm": "node -v && npm -v"
   },
   "engines": {
