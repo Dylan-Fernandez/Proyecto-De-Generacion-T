@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "seve dist -s -n -l -p %PORT"
+    "start": "serve dist -s -n -l -p $PORT"
   },
   "dependencies": {
     "i18next": "^25.6.0",
